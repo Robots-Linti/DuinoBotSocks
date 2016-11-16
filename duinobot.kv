@@ -1,0 +1,247 @@
+
+
+<GridLayout>:
+    #cols: 2
+    #spacing: 10
+    #row_default_height:
+        #(0.25 * (self.height - self.spacing[0]) -
+        #self.padding[0])
+    #row_force_default: True
+<ActionSpinner@Spinner+ActionItem>
+    canvas.before:
+        Color:
+            rgba: 0.128, 0.128, 0.128, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    border: 27, 20, 12, 12
+
+
+
+
+<DuinoSocks>:
+    screen_manager: screen_manager
+
+    ScreenManager:
+        id: screen_manager
+        Screen:
+            name: 'inicio'
+            id: inicio
+            BoxLayout:
+                orientation: 'vertical'
+                idRobot: idR
+                GridLayout:
+                    cols: 2
+                    Label:
+                        text: 'Usuario:'
+                        size_hint: (0.4, 1)
+                        valign: 'bottom'
+
+                    TextInput:
+                        id: usuario
+                        cursor_blink: True
+                        #hint_text: 'nombre'
+                        text: 'nombre'
+                        multiline: False
+                    ActionSpinner:
+                        id: idR
+                        important: True
+                        text: 'Id Robot'
+                        values: root.idRobot
+                        background_color: (1.0, 1.0, 0.0, 1.0)
+                        on_text: idx = self.values[0]
+                GridLayout:
+                    cols: 2
+                    Button:
+                        id: conectar
+                        text: 'Conectar'
+                        background_color: (1.5, 1.0, 0.0, 1.0)
+                        on_release: root.iniciar(inicio, "juego")
+
+                    Button:
+                        text: 'Quit'
+                        on_release: root.onBackBtn()
+
+        Screen:
+            name: "juego"
+            id: ventjuego
+            BoxLayout:
+                #size_hint: (.25, .25)
+                #
+                ##size: root.size
+                orientation: 'vertical'
+                GridLayout:
+                    id: botones
+                    velocidades: velo
+                    tiempo: tiemp
+                    #size_hint: (.25, .25)
+                    pos_hint: {'right':1, 'top':1}
+                    cols: 2
+                    GridLayout:
+						rows: 2
+						#rows: 1
+						cols: 1
+						CodeInput:
+							id: textinput
+							#lexer: CythonLexer()
+							readonly: True
+						GridLayout:
+							cols: 2
+							rows: 1
+							size_hint: (1,.2)
+							Button:
+								text: "Deshacer"
+								on_release: root.deshacer()
+								background_color: (0,0,0,0)
+								Image:
+									source: 'imgs/deshacer.png'
+									y: self.parent.y
+									x: self.parent.x
+									size: self.parent.size
+									allow_stretch: True
+							Button:
+								id: guardar
+								text: "Guardar"
+								on_release: root.exportar()
+                    GridLayout:
+						cols: 1
+						GridLayout:
+							rows: 2
+							size_hint: (1,.2)
+							GridLayout:
+								rows: 2
+								Label:
+									text: 'Velocidad: {}'.format(int(velo.value))
+								Slider:
+									id: velo
+									min: 20
+									max: 100
+									step: 10
+									value: self.min
+							GridLayout:
+								rows: 2
+								Label:
+									text: 'Tiempo: {}'.format(tiemp.value)
+								Slider:
+									id: tiemp
+									min: 0.25
+									max: 10
+									step: 0.25
+									value: self.min
+						GridLayout:
+							cols: 2
+							GridLayout:
+								rows: 1
+								Button:
+									text: 'doblar izquierda'
+									id:izquierda
+									on_press: root.doblarizquierda()
+									size_hint: (.95, .95)
+									background_color: (0,0,0,0)
+									Image:
+										source: 'imgs/izquierda.png'
+										y: self.parent.y
+										x: self.parent.x
+										size: self.parent.size
+										allow_stretch: True
+							GridLayout:
+								rows: 1
+								Button:
+									text: 'doblar derecha'
+									id:derecha
+									on_press: root.doblarderecha()
+									size_hint: (.95, .95)
+									background_color: (0,0,0,0)
+									Image:
+										source: 'imgs/derecha.png'
+										y: self.parent.y
+										x: self.parent.x
+										size: self.parent.size
+										allow_stretch: True
+
+							GridLayout:
+								rows: 1
+								Button:
+									id:retroceder
+									text: 'retroceder'
+									on_press: root.retroceder()
+									size_hint: (.95, .95)
+									background_color: (0,0,0,0)
+									Image:
+										source: 'imgs/abajo.png'
+										y: self.parent.y
+										x: self.parent.x
+										size: self.parent.size
+										allow_stretch: True
+							GridLayout:
+								rows: 1
+								Button:
+									id: avanzar
+									text: 'avanzar'
+									on_press: root.avanzar()
+									size_hint: (.95, .95)
+									background_color: (0,0,0,0)
+									Image:
+										source: 'imgs/arriba.png'
+										y: self.parent.y
+										x: self.parent.x
+										size: self.parent.size
+										allow_stretch: True
+							GridLayout:
+								rows: 2
+								Button:
+									id: sonar
+									#text: 'sonar'
+									on_press: root.sonar()
+									size_hint: (.5, .5)
+									background_color: (0,0,0,0)
+									Image:
+										source: 'imgs/sonido.png'
+										y: self.parent.y
+										x: self.parent.x
+										size: self.parent.size
+										allow_stretch: True
+								ActionSpinner:
+									id: frecuencia
+									important: True
+									text: 'Frecuencia'
+									size_hint: (1,.5)
+									values: root.freq
+									background_color: (1.6, 1.6, 0.5, 1.0)
+									on_text: idx = self.values[0]
+							GridLayout:
+								rows: 2
+								Label:
+									text: 'Angulo: {}'.format(slider.value)
+								Slider:
+									id: slider
+									min: root.servo_ang_min
+									max: root.servo_ang_max
+									range: root.servo_range
+									step: 20
+									value: self.min
+									on_value: root.mover_servo(self.value)
+						GridLayout:
+							cols: 1
+							rows: 2
+							size_hint: (1,.4)
+							GridLayout:
+								rows: 2
+								Label:
+									text: 'Cantidad: {}'.format(int(rep_slide.value))
+								Slider:
+									id: rep_slide
+									min: 1
+									max: 20
+									step: 1
+									value: self.min
+							GridLayout:
+								cols: 2
+								Button:
+									id: btn_rep
+									text: "Repetir"
+									on_release: root.add_for()
+								Button:
+									id: btn_iter
+									text: "Mientras no hay obstaculo"
+									on_release: root.add_while()
