@@ -190,11 +190,6 @@ class DuinoSocks(FloatLayout):
 		self.textinput.text += "\n"+self.indent+"robot.moveServo(9,"+str(int(pos))+")"
 		if self.continue_f and self.continue_w:
 			self.r.moveServo(9, int(pos))
-			#~ time.sleep(.1)
-			#~ wait(self.t)
-			print "kjdksfjdsjhfjdsfh"
-		#~ else:
-			#~ self.t = 0
 
     def parar(self):
         #~ self.set_command('r.stop')
@@ -209,9 +204,6 @@ class DuinoSocks(FloatLayout):
 		self.ids["btn_iter"].disabled = False
 
     def add_for(self):#, val):#, slid, val):
-		#~ print slid
-		#~ print val
-		#~ self.textinput.write_tab = True
 		if self.ids["btn_rep"].text == "Repetir":
 			#~ self.textinput.padding_x = 30
 			self.pila_accion.append("\nfor i in range("+str(int(self.ids["rep_slide"].value))+"):")
@@ -226,14 +218,11 @@ class DuinoSocks(FloatLayout):
 			self.ids["btn_rep"].disabled = True
 			for i in range(int(self.ids["rep_slide"].value)):
 				for e in range(self.iter_id,len(self.pila_accion)-1):
-					#~ self.r.###########self.pila_accion[e]
-					print "self."+self.pila_accion[e][2:]
 					command = "self."+self.pila_accion[e][2:]
 					try:
 						eval(command)
 					except:
 						eval(self.pila_accion[e])
-					print e
 			else:
 				self.salir_for()
 
@@ -258,13 +247,11 @@ class DuinoSocks(FloatLayout):
 			while (not self.r.getObstacle()):
 				#~ eval(self.pila_accion[self.iter_idw])
 				for e in range(self.iter_idw+2,len(self.pila_accion)-1):
-					print "self."+self.pila_accion[e][2:]
 					command = "self."+self.pila_accion[e][2:]
 					try:
 						eval(command)
 					except:
 						eval(self.pila_accion[e])
-					print e
 			else:
 				self.salir_while()
 
@@ -275,19 +262,14 @@ class DuinoSocks(FloatLayout):
     def deshacer(self):#, event):
 		if len(self.pila_accion) > 0:
 			ultimo = self.pila_accion.pop(-1)
-			#~ self.textinput.do_undo()
-			#~ print self.pila_accion
-			print ultimo
+
 			if ultimo == "wait(.2)":
 				ultimo = self.pila_accion.pop(-1)
 				self.descontar(4, ultimo)
-				print ultimo
 			elif ultimo[:4] == "\nfor":
-				print "entra for"
 				self.descontar(0, ultimo)
 				self.salir_for()
 			elif ultimo[:6] == "\nwhile":
-				print "entra while"
 				self.descontar(4, ultimo)
 				self.salir_while()
 			else:
@@ -312,7 +294,6 @@ class DuinoSocks(FloatLayout):
         if self.list_of_prev_screens:
             # If there are then just go back to it
             self.screen_manager.current = self.list_of_prev_screens.pop()
-            print(self.screen_manager.current)
             # We don't want to close app
             return True
         # No more screens so user must want to exit app
@@ -355,18 +336,7 @@ class DuinobotApp(App):
 
     # --------------------------------------------------------------------------
     def build(self):
-		#~ try:
-			#~ return DuinoSocks()
-		#~ except:
-			#~ return Error()
 		return Error()
-		#~ self.e = Error()
-		#~ e.connect()
-		#~ return self.e
-		#~ print "b"
-		#~ e.connect()
-		#~ print "c"
-		#~ return DuinoSocks()
 
     def onBackBtn(self, window, key, *args):
         """ To be called whenever user presses Back/Esc Key """
