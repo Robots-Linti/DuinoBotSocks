@@ -206,11 +206,11 @@ class DuinoSocks(FloatLayout):
     def add_for(self):#, val):#, slid, val):
 		if self.ids["btn_rep"].text == "Repetir":
 			#~ self.textinput.padding_x = 30
+			self.iter_id = len(self.pila_accion) #donde comenzar la repeticion de los comandos
 			self.pila_accion.append("\nfor i in range("+str(int(self.ids["rep_slide"].value))+"):")
 			self.textinput.text += "\nfor i in range("+str(int(self.ids["rep_slide"].value))+"):"
 			self.indent = "    "
 			self.ids["btn_rep"].text = "Detener repetir"
-			self.iter_id = len(self.pila_accion) #donde comenzar la repeticion de los comandos
 			self.continue_f = False
 			self.ids["rep_slide"].disabled = True
 			self.ids["btn_iter"].disabled = True
